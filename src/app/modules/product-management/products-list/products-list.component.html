@@ -1,4 +1,4 @@
-<h4>Productos</h4>
+<h4>Lista de Productos</h4>
 
 <hr />
 
@@ -28,8 +28,9 @@
 
 <div class="row mt-2">
   <div class="col-12">
-    <table class="table table" *ngIf="filteredProducts?.length">
-      <tr>
+    <table class="table"
+      *ngIf="filteredProducts?.length">
+      <tr class="table-header">
         <th>Id</th>
         <th>Nombre</th>
         <th class="text-center">Stock Gral.</th>
@@ -37,7 +38,10 @@
         <th>Presentaciones</th>
       </tr>
       <tbody *ngFor="let product of filteredProducts; let i = index">
-        <tr (click)="changeNodeState(i)" class="table-node">
+        <tr
+          class="table-node"
+          (click)="changeNodeState(i)"
+          [title]="(tableNodes[i].open) ? 'Contraer ' : 'Expandir '">
           <td>{{ product?.id }}</td>
           <td>
             {{ product?.name }}
@@ -60,14 +64,14 @@
           </td>
         </tr>
         <tr *ngIf="tableNodes[i].open">
-          <td colspan="5">
-            <table class="table">
+          <td class="inner-table-container" colspan="5">
+            <table class="table inner-table">
               <tr>
                 <th>Presentación</th>
                 <th>Unidad</th>
                 <th>Precio</th>
               </tr>
-              <tr *ngFor="let presentation of product?.presentations">
+              <tr *ngFor="let presentation of product?.presentations" class="presentation-row">
                 <td>{{presentation?.getName()}}</td>
                 <td>{{presentation?.amount}}</td>
                 <td>{{presentation?.getPrice()  | amount}}</td>

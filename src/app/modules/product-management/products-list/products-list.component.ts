@@ -17,7 +17,7 @@ export class ProductsListComponent implements OnInit {
   filterValue: string | any;
   filteredProducts?: Product[];
   tableNodes: any[];
-  allOpen = false;
+  allOpen = true;
   @BlockUI() blockUI?: NgBlockUI;
 
   constructor(
@@ -56,7 +56,7 @@ export class ProductsListComponent implements OnInit {
 
   private setTableNodes(q: number | any): void {
     for (let i = 0; i < q; i++) {
-      this.tableNodes.push({open: false});
+      this.tableNodes.push({open: this.allOpen});
     }
   }
 
@@ -66,7 +66,7 @@ export class ProductsListComponent implements OnInit {
 
   changeNodeStates(): void {
     this.allOpen = !this.allOpen;
-    this.tableNodes.forEach(tn => tn.open = this.allOpen );
+    this.tableNodes.forEach(tn => tn.open = this.allOpen);
   }
 
 }
