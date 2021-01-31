@@ -1,0 +1,27 @@
+.table-node {
+  background-color: white;
+}
+
+.table-node:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+
+.product-active {
+  background-color: yellowgreen;
+  color: white;
+  font-size: 0.6em;
+  padding: 1px 4px 3px;
+  border-radius: 3px;
+  margin-left: 15px;
+}
+
+.presentation {
+  display: inline-block;
+  background-color: rgb(96, 89, 151);
+  color: white;
+  font-size: 0.8em;
+  padding: 1px 4px 3px;
+  border-radius: 3px;
+  margin-right: 15px;
+}

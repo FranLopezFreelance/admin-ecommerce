@@ -1,0 +1,82 @@
+<h4>Productos</h4>
+
+<hr />
+
+<div class="row">
+  <div class="col-md-4 col-sm-12 col-12 mt-2">
+    <input class="form-control form-control-sm"
+      type="text"
+      placeholder="Buscar ..."
+      [(ngModel)]="filterValue"
+      (ngModelChange)="filter()"
+      aria-label="Buscar" />
+  </div>
+  <div class="col-md-4 col-sm-12 col-12 mt-2">
+    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm">
+      <option selected>Todas las categorías</option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </div>
+  <div class="col-md-4 col-sm-12 col-12 mt-2">
+    <button type="button" class="btn btn-secondary btn-sm" (click)="changeNodeStates()">
+      {{ (allOpen) ? 'Contraer ' : 'Expandir ' }} todo
+    </button>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <div class="col-12">
+    <table class="table table" *ngIf="filteredProducts?.length">
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th class="text-center">Stock Gral.</th>
+        <th class="text-center">Orígen</th>
+        <th>Presentaciones</th>
+      </tr>
+      <tbody *ngFor="let product of filteredProducts; let i = index">
+        <tr (click)="changeNodeState(i)" class="table-node">
+          <td>{{ product?.id }}</td>
+          <td>
+            {{ product?.name }}
+            <span class="state" [ngClass]="product?.stateCss() || ''">
+              {{ product?.getState() }}
+            </span>
+          </td>
+          <td class="text-center">{{ product?.getStockType() }}</td>
+          <td class="text-center">{{ product?.origin }}</td>
+          <td [ngSwitch]="product?.presentations?.length">
+            <div *ngSwitchCase="0">
+              Sin presentaciones
+            </div>
+            <div *ngSwitchDefault>
+              <span *ngFor="let presentation of product?.presentations"
+                class="presentation">
+                {{ presentation?.getName() }}
+              </span>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="tableNodes[i].open">
+          <td colspan="5">
+            <table class="table">
+              <tr>
+                <th>Presentación</th>
+                <th>Unidad</th>
+                <th>Precio</th>
+              </tr>
+              <tr *ngFor="let presentation of product?.presentations">
+                <td>{{presentation?.getName()}}</td>
+                <td>{{presentation?.amount}}</td>
+                <td>{{presentation?.getPrice()  | amount}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="!filteredProducts?.length && filterValue?.length">No hay productos que coincidan con la búsqueda</p>
+  </div>
+</div>
