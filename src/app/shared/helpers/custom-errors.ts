@@ -1,11 +1,19 @@
-// import {ErrorMessage} from 'ng-bootstrap-form-validation';
+import {ErrorMessage} from 'ng-bootstrap-form-validation';
 
-// export const customErrorMessages: ErrorMessage[] = [
-//   {
-//     error: 'required',
-//     format: (label, error) => `${label.toUpperCase()} IS DEFINITELY REQUIRED!`
-//   }, {
-//     error: 'pattern',
-//     format: (label, error) => `${label.toUpperCase()} DOESN'T LOOK RIGHT...`
-//   }
-// ];
+export const CUSTOM_ERRORS: any[] = [
+  {
+    error: 'required',
+    format: requiredFormat
+  }, {
+    error: 'email',
+    format: emailFormat
+  }
+];
+
+export function requiredFormat(label: string, error: any): string {
+  return `${label} es requerido.`;
+}
+
+export function emailFormat(label: string, error: any): string {
+  return `${label} tiene un formato inválido.`;
+}

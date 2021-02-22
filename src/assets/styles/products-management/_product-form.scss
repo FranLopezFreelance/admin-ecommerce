@@ -1,7 +1,23 @@
 .presentation-form-row {
-  border-bottom: 1px solid silver;
+  position: relative;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 6px;
   background-color: whitesmoke;
-  margin-bottom: 15px;
+  margin: 0px 5px 15px;
+  padding: 10px;
+}
+
+.add-button {
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.del-button {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 
 .btn-cancel {
@@ -22,4 +38,10 @@
 
 .page-title {
   margin-bottom: -15px;
+}
+
+.required {
+  color: rgb(202, 96, 96);
+  font-size: 0.7!important;
+  margin-left: 10px;
 }

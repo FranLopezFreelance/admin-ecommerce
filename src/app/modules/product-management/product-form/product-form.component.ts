@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ProductsService } from 'src/app/core/services/products.service';
+import { SwalService } from 'src/app/core/services/swal.service';
 import { Product } from 'src/app/models/Product.class';
 import { PriceFormModalComponent } from '../price-form-modal/price-form-modal.component';
 
@@ -25,7 +26,8 @@ export class ProductFormComponent implements OnInit {
     private productService: ProductsService,
     private route: ActivatedRoute,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private swalService: SwalService
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +47,28 @@ export class ProductFormComponent implements OnInit {
     return this.productForm?.get('presentations') as FormArray;
   }
 
+  addPresentation(): void {
+    this.presentations.push(new FormGroup({
+      id: new FormControl(null),
+      name: new FormControl('', [Validators.required]),
+      amount: new FormControl(null, [Validators.required]),
+      description: new FormControl(''),
+      active: new FormControl(1),
+    }));
+  }
+
+  delPresentation(i: number): void {
+    this.swalService.confirm(
+      '¿Seguro que quiere quitar la presentación?',
+      'Una vez que guarde los cambios en el formulario, la presntación se eliminará definitivamente.',
+      'Si', 'No').then((result: any) => {
+        if (result.isConfirmed) {
+          this.presentations.removeAt(i);
+          this.presentations.markAsDirty();
+        }
+    });
+  }
+
   openPriceFormModal(id: number): void{
     const dialogRef = this.dialog.open(PriceFormModalComponent, {
       data: {
@@ -57,15 +81,26 @@ export class ProductFormComponent implements OnInit {
   }
 
   save(): void {
-    if (this.id && this.id !== 'nuevo') {
-      this.productService.create(this.productForm?.value);
-    } else {
-      this.productService.updateProduct(String(this.id), this.productForm?.value);
+    if (!this.productForm?.valid) {
+      return;
     }
+    console.log(this.productForm);
   }
 
   cancel(): void {
-    this.router.navigate(['/productos']);
+    console.log(this.productForm?.pristine, this.presentations);
+    if (!this.productForm?.pristine || !this.presentations?.pristine) {
+      this.swalService.confirm(
+        '¿Quiere abondonar el formulario?',
+        'Los cambios en producto / presentaciones no fueron guardados y se perderán.',
+        'Si', 'No').then((result: any) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/productos']);
+          }
+      });
+    } else {
+      this.router.navigate(['/productos']);
+    }
   }
 
   private getProduct(): void {

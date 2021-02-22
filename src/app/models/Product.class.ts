@@ -47,8 +47,8 @@ export class Product {
     this.presentations.forEach(p => {
       presentations.push(new FormGroup({
         id: new FormControl(p.id),
-        name: new FormControl(p.name),
-        amount: new FormControl(p.amount),
+        name: new FormControl(p.name, [Validators.required]),
+        amount: new FormControl(p.amount, [Validators.required]),
         description: new FormControl(p.description),
         price: new FormControl(p.price.price),
         active: new FormControl(p.active),
@@ -58,7 +58,7 @@ export class Product {
       id: new FormControl(this.id),
       name: new FormControl(this.name, [Validators.required]),
       description: new FormControl(this.description),
-      sell_type: new FormControl(this.sell_type),
+      sell_type: new FormControl(this.sell_type, [Validators.required]),
       origin: new FormControl(this.origin),
       active: new FormControl(this.active),
       presentations

@@ -6,6 +6,8 @@ import { BlockUIModule } from 'ng-block-ui';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CUSTOM_ERROR_MESSAGES, NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
+import { CUSTOM_ERRORS } from '../shared/helpers/custom-errors';
 
 @NgModule({
   declarations: [NavbarComponent],
@@ -15,8 +17,14 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     BrowserAnimationsModule,
     BlockUIModule.forRoot(),
     ToastrModule.forRoot(),
+    NgBootstrapFormValidationModule.forRoot(),
     RouterModule
   ],
-  exports: [NavbarComponent, BlockUIModule, ToastrModule]
+  exports: [NavbarComponent, BlockUIModule, ToastrModule],
+  providers: [{
+    provide: CUSTOM_ERROR_MESSAGES,
+    useValue: CUSTOM_ERRORS,
+    multi: true
+  }],
 })
 export class CoreModule { }
