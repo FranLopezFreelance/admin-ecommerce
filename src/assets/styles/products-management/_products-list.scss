@@ -1,0 +1,129 @@
+table, tbody, tr, td {
+  border: none!important;
+}
+
+.products-table {
+  margin-bottom: 40px;
+}
+
+.expand-button {
+  background-color: rgb(133, 133, 190)!important;
+  font-size: 0.7em;
+  padding: 3px;
+  color: white;
+  border-radius: 3px;
+  &:hover {
+    background-color: rgb(108, 108, 172)!important;
+    cursor: pointer;
+  }
+}
+
+.edit-button {
+  color: rgb(68, 68, 138);
+  cursor: pointer;
+}
+
+.table-node {
+  background-color: white;
+}
+
+.table-node:hover {
+  background-color: whitesmoke;
+}
+
+.presentation {
+  display: inline-block;
+  background-color: rgb(154, 148, 201);
+  color: white;
+  font-size: 0.8em;
+  padding: 1px 6px 3px;
+  border-radius: 3px;
+  margin-right: 15px;
+}
+
+.table-header {
+  border-bottom: none;
+  th {
+    padding: 8px!important;
+  }
+}
+
+.inner-table-container {
+  padding: 0px!important;
+}
+
+.inner-table {
+  border-top: 1px solid rgb(134, 134, 134);
+  padding: 4px;
+  background-color: rgb(250, 250, 250);
+  margin: 0px;
+  td, th {
+    border-top: 1px solid silver!important;
+    padding: 4px;
+    font-size: 0.9em;
+  }
+
+  .presentations-header {
+    background-color: rgb(240, 242, 248);
+  }
+
+  .presentation-row {
+    &:hover {
+      background-color: rgb(233, 233, 233);
+    }
+  }
+}
+
+.p-active {
+  background-color: yellowgreen!important;
+  color: white;
+  font-size: 0.6em;
+  padding: 1px 4px 3px!important;
+  border-radius: 3px;
+  margin-left: 15px;
+}
+
+.text-right-header {
+  text-align: right!important;
+}
+
+.text-right {
+  text-align: right!important;
+  padding-right: 15px;
+}
+
+tbody, .table-node {
+  border-top: 1px solid rgb(150, 138, 138)!important;
+}
+
+.td-5 {
+  width: 5%;
+}
+
+.td-10 {
+  width: 10%;
+}
+
+.td-20 {
+  width: 30%;
+}
+
+.td-35 {
+  width: 35%;
+}
+
+.td-40 {
+  width: 40%;
+}
+
+.td-50 {
+  width: 50%;
+}
+
+.td-60 {
+  width: 60%;
+}
+
+.td-75 {
+  width: 75%;
+}

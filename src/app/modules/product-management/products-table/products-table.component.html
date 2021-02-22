@@ -1,0 +1,85 @@
+<table class="table products-table">
+  <tr class="table-header">
+    <th class="td-35">Nombre</th>
+    <th class="td-10">Tipo venta</th>
+    <th class="td-10">Orígen</th>
+    <th class="td-35">Presentaciones</th>
+    <td></td>
+    <td [ngSwitch]="allOpen" class="text-right-header"
+      (click)="changeNodeStates()">
+      <i *ngSwitchCase="true"
+        class="bi bi-chevron-up"
+        title="Contraer todo">
+      </i>
+      <i *ngSwitchDefault
+        class="bi bi-chevron-down"
+        title="Expandir todo">
+      </i>
+    </td>
+  </tr>
+  <!-- PRODUCTOS -->
+  <tbody *ngFor="let product of products; let i = index">
+    <tr class="table-node">
+      <td>
+        {{ product?.name | titlecase }}
+        <span class="state" [ngClass]="product?.stateCss() || ''">
+          {{ product?.getState() }}
+        </span>
+      </td>
+      <td>{{ product?.getSellType() }}</td>
+      <td>{{ product?.origin || 'No informado' }}</td>
+      <td [ngSwitch]="product?.presentations?.length">
+        <div *ngSwitchCase="0">
+          Sin presentaciones
+        </div>
+        <div *ngSwitchDefault>
+          <span *ngFor="let presentation of product?.presentations"
+            class="presentation">
+            {{ presentation.name }}
+          </span>
+        </div>
+      </td>
+      <td>
+        <i title="Editar producto"
+          class="bi bi-pencil-fill edit-button"
+          [routerLink]="['/productos/' + product.id]">
+        </i>
+      </td>
+      <td [ngSwitch]="tableNodes[i].open"
+        class="text-right"
+        (click)="changeNodeState(i)"
+        [title]="(tableNodes[i].open) ? 'Contraer' : 'Expandir'">
+        <i *ngSwitchCase="true" class="bi bi-chevron-up"></i>
+        <i *ngSwitchDefault class="bi bi-chevron-down"></i>
+      </td>
+    </tr>
+    <tr *ngIf="tableNodes[i].open">
+      <td class="inner-table-container" colspan="6">
+        <!-- TABLA AÑIDADA -->
+        <table class="table inner-table">
+          <!-- <tr class="presentations-header">
+            <td>Presentación</td>
+            <td>Unidad</td>
+            <td>Precio</td>
+          </tr> -->
+          <!-- PRESENTACIONES -->
+          <tr *ngFor="let presentation of product?.presentations"
+            class="presentation-row">
+            <td class="text-right td-50">
+              {{presentation.name}}
+              <span class="state" [ngClass]="presentation?.stateCss() || ''">
+                {{ presentation?.getState() }}
+              </span>
+            </td>
+            <td class="text-right td-10">
+              ({{presentation?.amount}} unid.)
+            </td>
+            <td class="text-right td-10">
+              {{presentation?.getPrice()  | amount}}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>

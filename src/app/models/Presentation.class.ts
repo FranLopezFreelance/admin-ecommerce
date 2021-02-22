@@ -7,23 +7,20 @@ export class Presentation {
   name: string;
   amount: number;
   // tslint:disable-next-line: variable-name
-  unity_id: number;
   description: string;
-  unity: Unity;
-  images?: File[];
-  prices: Price[];
+  active: number;
   // tslint:disable-next-line: variable-name
   user_id: number;
+  price: Price;
 
   constructor(presentation?: Presentation) {
     this.id = (presentation) ? presentation.id : 0;
     this.product_id = (presentation) ? presentation.product_id : 0;
     this.name = (presentation) ? presentation.name : '';
     this.amount = (presentation) ? presentation.amount : 0;
-    this.unity_id = (presentation) ? presentation.unity_id : 0;
-    this.unity = (presentation) ? presentation.unity : {};
     this.description = (presentation) ? presentation.description : '';
-    this.prices = (presentation) ? presentation.prices : [];
+    this.active = (presentation) ? presentation.active : 0;
+    this.price = (presentation) ? presentation.price : defaultPrice;
     this.user_id = (presentation) ? presentation.user_id : 0;
   }
 
@@ -31,31 +28,31 @@ export class Presentation {
     return new FormGroup({
       id: new FormControl(this.id),
       product_id: new FormControl(this.product_id, [Validators.required]),
+      name: new FormControl(this.name, [Validators.required]),
       amount: new FormControl(this.amount, [Validators.required]),
-      unity_id: new FormControl(this.unity_id, [Validators.required]),
-      description: new FormControl(this.description),
-      user_id: new FormControl(this.user_id, [Validators.required])
+      description: new FormControl(this.amount)
     });
   }
 
-  getName(): string {
-    return `${this.amount} ${this.unity.name}`;
+  getState(): string {
+    return (this.active) ? 'Activa' : 'Inactiva';
+  }
+
+  stateCss(): string {
+    return (this.active) ? 'p-active' : 'p-inactive';
   }
 
   getPrice(): number {
-    return (this.prices) ? this.prices[0].price : 0;
+    return this.price.price;
   }
 }
 
-export interface Unity {
-  abbr?: string;
-  name?: string;
+export interface Price {
+  presentation_id: number;
+  price: number;
 }
 
-export interface Price {
-  id: number;
-  price: number;
-  date: string;
-  // tslint:disable-next-line: variable-name
-  user_id: number;
-}
+export const defaultPrice = {
+  presentation_id: 0,
+  price: 0
+};
