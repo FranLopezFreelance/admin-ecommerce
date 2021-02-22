@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from 'src/app/models/Product.class';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -27,15 +27,15 @@ export class ProductsService {
     );
   }
 
-  updateProduct(id: string, data: any): Observable<Product> {
+  updateProduct(id: string | undefined, data: any): Observable<Product> {
     return this.http.put<Product>(`${environment.baseUrl}/products/${id}`, data).pipe(
-      map((product: Product) => new Product(product))
+      tap(res => console.log(res))
     );
   }
 
-  create(data: any): Observable<Product> {
-    return this.http.post<Product>(`${environment.baseUrl}/products/`, data).pipe(
-      map((product: Product) => new Product(product))
+  createProduct(data: any): Observable<Product> {
+    return this.http.post<Product>(`${environment.baseUrl}/products`, data).pipe(
+      tap(res => console.log(res))
     );
   }
 }

@@ -17,6 +17,10 @@
 <form *ngIf="product && productForm" [formGroup]="productForm">
   <div class="row">
     <div class="col-md-4">
+      <h4>Información del producto</h4>
+
+      <hr />
+
       <div class="form-group">
         <label for="name">Nombre</label>
         <span class="required">*</span>
@@ -76,6 +80,9 @@
           (click)="addPresentation()">
         </i>
       </h4>
+
+      <hr />
+
       <div class="row"
         *ngFor="let control of presentations.controls; index as i">
         <div class="col-md-12">

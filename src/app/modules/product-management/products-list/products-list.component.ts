@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from 'src/app/core/services/products.service';
@@ -19,7 +20,8 @@ export class ProductsListComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
   ) {  }
 
   ngOnInit(): void {
@@ -46,5 +48,9 @@ export class ProductsListComponent implements OnInit {
     } else {
       this.filteredProducts = this.products;
     }
+  }
+
+  createProduct(): void {
+    this.router.navigate(['/productos/nuevo']);
   }
 }

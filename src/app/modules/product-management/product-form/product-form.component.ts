@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from 'src/app/core/services/products.service';
 import { SwalService } from 'src/app/core/services/swal.service';
 import { Product } from 'src/app/models/Product.class';
@@ -14,7 +15,7 @@ import { PriceFormModalComponent } from '../price-form-modal/price-form-modal.co
 })
 export class ProductFormComponent implements OnInit {
 
-  id?: string | null;
+  id?: string;
   product: Product = new Product();
   productForm?: FormGroup;
   action?: string;
@@ -26,12 +27,13 @@ export class ProductFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private swalService: SwalService
+    private swalService: SwalService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.id = params.get('id');
+      this.id = params.get('id') || '';
       if (this.id !== 'nuevo') {
         this.getProduct();
         this.action = 'Editar';
@@ -80,17 +82,15 @@ export class ProductFormComponent implements OnInit {
   }
 
   save(): void {
-    this.productForm?.get('name')?.markAsDirty();
-    this.productForm?.markAllAsTouched();
-    this.presentations.controls.forEach((presentation: any) => {
-      presentation.get('name').markAsDirty();
-      presentation.get('amount').markAsDirty();
-    });
-    this.presentations.markAllAsTouched();
+    this.prepareForm();
     if (!this.productForm?.valid) {
       return;
     }
-    console.log(this.productForm);
+    if (this.id !== 'nuevo') {
+      this.updateProduct();
+    } else {
+      this.createProduct();
+    }
   }
 
   cancel(): void {
@@ -114,6 +114,40 @@ export class ProductFormComponent implements OnInit {
       this.product = product;
       this.productForm = this.product.toForm();
       this.blockUI?.stop();
+    });
+  }
+
+  private prepareForm(): void {
+    this.productForm?.get('name')?.markAsDirty();
+    this.productForm?.markAllAsTouched();
+    this.presentations.controls.forEach((presentation: any) => {
+      presentation.get('name').markAsDirty();
+      presentation.get('amount').markAsDirty();
+    });
+    this.presentations.markAllAsTouched();
+  }
+
+  private updateProduct(): void {
+    this.blockUI?.start();
+    this.productService.updateProduct(this.id, this.productForm?.value).subscribe(() => {
+      this.blockUI?.stop();
+      this.toastr.success('Los datos se editaron correctamente');
+      this.router.navigate(['/productos']);
+    }, () => {
+      this.blockUI?.stop();
+      this.toastr.error('Ha ocurrido un error');
+    });
+  }
+
+  private createProduct(): void {
+    this.blockUI?.start();
+    this.productService.createProduct(this.productForm?.value).subscribe(() => {
+      this.blockUI?.stop();
+      this.toastr.success('Los datos se guardaron correctamente');
+      this.router.navigate(['/productos']);
+    }, () => {
+      this.blockUI?.stop();
+      this.toastr.error('Ha ocurrido un error');
     });
   }
 
