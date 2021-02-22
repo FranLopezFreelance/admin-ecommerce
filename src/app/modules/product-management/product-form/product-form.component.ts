@@ -81,6 +81,13 @@ export class ProductFormComponent implements OnInit {
   }
 
   save(): void {
+    this.productForm?.get('name')?.markAsDirty();
+    this.productForm?.markAllAsTouched();
+    this.presentations.controls.forEach((presentation: any) => {
+      presentation.get('name').markAsDirty();
+      presentation.get('amount').markAsDirty();
+    });
+    this.presentations.markAllAsTouched();
     if (!this.productForm?.valid) {
       return;
     }
