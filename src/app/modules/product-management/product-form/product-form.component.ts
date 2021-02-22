@@ -10,8 +10,7 @@ import { PriceFormModalComponent } from '../price-form-modal/price-form-modal.co
 
 @Component({
   selector: 'app-product-form',
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.scss']
+  templateUrl: './product-form.component.html'
 })
 export class ProductFormComponent implements OnInit {
 
@@ -76,7 +75,7 @@ export class ProductFormComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      //
     });
   }
 
@@ -95,7 +94,6 @@ export class ProductFormComponent implements OnInit {
   }
 
   cancel(): void {
-    console.log(this.productForm?.pristine, this.presentations);
     if (!this.productForm?.pristine || !this.presentations?.pristine) {
       this.swalService.confirm(
         '¿Quiere abondonar el formulario?',

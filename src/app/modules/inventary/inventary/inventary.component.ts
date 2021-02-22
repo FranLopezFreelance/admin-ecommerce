@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-inventary',
-  templateUrl: './inventary.component.html',
-  styleUrls: ['./inventary.component.scss']
+  templateUrl: './inventary.component.html'
 })
 export class InventaryComponent implements OnInit {
 
