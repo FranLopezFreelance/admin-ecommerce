@@ -4,8 +4,9 @@
     <th class="td-10">Tipo venta</th>
     <th class="td-10">Orígen</th>
     <th class="td-35">Presentaciones</th>
-    <td></td>
-    <td [ngSwitch]="allOpen" class="text-right-header"
+    <th></th>
+    <th></th>
+    <th [ngSwitch]="allOpen" class="text-right-header"
       (click)="changeNodeStates()">
       <i *ngSwitchCase="true"
         class="bi bi-chevron-up"
@@ -15,7 +16,7 @@
         class="bi bi-chevron-down"
         title="Expandir todo">
       </i>
-    </td>
+    </th>
   </tr>
   <!-- PRODUCTOS -->
   <tbody *ngFor="let product of products; let i = index">
@@ -43,6 +44,12 @@
         <i title="Editar producto"
           class="bi bi-pencil-fill edit-button"
           [routerLink]="['/productos/' + product.id]">
+        </i>
+      </td>
+      <td>
+        <i title="Eliminar producto"
+          class="bi bi-trash-fill edit-button"
+          (click)="deleteProduct(product.id)">
         </i>
       </td>
       <td [ngSwitch]="tableNodes[i].open"

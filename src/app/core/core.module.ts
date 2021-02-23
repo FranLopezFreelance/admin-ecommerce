@@ -4,27 +4,38 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BlockUIModule } from 'ng-block-ui';
 import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { CUSTOM_ERROR_MESSAGES, NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { CUSTOM_ERRORS } from '../shared/helpers/custom-errors';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+import { CustomCurrencyMaskConfig } from '../shared/helpers/currency-options';
 
 @NgModule({
   declarations: [NavbarComponent],
   imports: [
     CommonModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    RouterModule,
+    CurrencyMaskModule,
     BlockUIModule.forRoot(),
     ToastrModule.forRoot(),
     NgBootstrapFormValidationModule.forRoot(),
-    RouterModule
   ],
-  exports: [NavbarComponent, BlockUIModule, ToastrModule],
+  exports: [
+    NavbarComponent,
+    BlockUIModule,
+    ToastrModule,
+    CurrencyMaskModule
+  ],
   providers: [{
-    provide: CUSTOM_ERROR_MESSAGES,
-    useValue: CUSTOM_ERRORS,
-    multi: true
-  }],
+      provide: CUSTOM_ERROR_MESSAGES,
+      useValue: CUSTOM_ERRORS,
+      multi: true
+    },
+    {
+      provide: CURRENCY_MASK_CONFIG,
+      useValue: CustomCurrencyMaskConfig
+    }
+  ],
 })
 export class CoreModule { }

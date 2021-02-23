@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -54,30 +54,31 @@ export class ProductFormComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       amount: new FormControl(null, [Validators.required]),
       description: new FormControl(''),
+      price: new FormControl({price: 0}),
       active: new FormControl(1),
     }));
   }
 
-  delPresentation(i: number): void {
-    this.swalService.confirm(
-      '¿Seguro que quiere quitar la presentación?',
-      'Una vez que guarde los cambios en el formulario, la presntación se eliminará definitivamente.',
-      'Si', 'No').then((result: any) => {
-        if (result.isConfirmed) {
-          this.presentations.removeAt(i);
-          this.presentations.markAsDirty();
-        }
-    });
+  delPresentation(i: number, id: number): void {
+    if (id) {
+      this.swalService.confirm(
+        '¿Seguro que quiere quitar la presentación?',
+        'Una vez que guarde los cambios en el formulario, la presntación se eliminará definitivamente.',
+        'Si', 'No').then((result: any) => {
+          if (result.isConfirmed) {
+            this.presentations.removeAt(i);
+            this.presentations.markAsDirty();
+          }
+      });
+    } else {
+      this.presentations.removeAt(i);
+      this.presentations.markAsDirty();
+    }
   }
 
-  openPriceFormModal(id: number): void{
-    const dialogRef = this.dialog.open(PriceFormModalComponent, {
-      data: {
-        id
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      //
+  openPriceFormModal(control: AbstractControl): void{
+    this.dialog.open(PriceFormModalComponent, {
+      data: {control}
     });
   }
 

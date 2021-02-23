@@ -2,7 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
+import { EventsService } from 'src/app/core/services/events.service';
 import { ProductsService } from 'src/app/core/services/products.service';
+import { SwalService } from 'src/app/core/services/swal.service';
 import { Product } from 'src/app/models/Product.class';
 import { includesWithoutAccentsAndCase } from 'src/app/shared/helpers/strings.helpers';
 
@@ -20,12 +22,17 @@ export class ProductsListComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService,
+    private eventsService: EventsService,
     private toastr: ToastrService,
     private router: Router,
+    private swalService: SwalService
   ) {  }
 
   ngOnInit(): void {
     this.getProducts();
+    this.eventsService.deleteProduct.subscribe((id: number) => {
+      this.deleteProduct(id);
+    });
   }
 
   getProducts(): void {
@@ -36,7 +43,7 @@ export class ProductsListComponent implements OnInit {
       this.blockUI?.stop();
     }, () => {
       this.blockUI?.stop();
-      this.toastr.error('Error en la carga de datos');
+      this.toastr.error('Ha ocurrido un error en la carga de datos.');
     });
   }
 
@@ -52,5 +59,24 @@ export class ProductsListComponent implements OnInit {
 
   createProduct(): void {
     this.router.navigate(['/productos/nuevo']);
+  }
+
+  deleteProduct(id: number): void {
+    this.swalService.confirm(
+      '¿Seguro que quiere eliminar el producto?',
+      'Una vez que confirme la acción, el producto se eliminará definitivamente.',
+      'Si', 'No').then((result: any) => {
+        if (result.isConfirmed) {
+          this.blockUI?.start();
+          this.productsService.deleteProduct(id).subscribe(() => {
+            this.toastr.success('El producto se eliminó correctamente.');
+            this.blockUI?.stop();
+            this.getProducts();
+          }, () => {
+            this.toastr.success('Ha ocurrido un error al intentar eliminar el producto.');
+            this.blockUI?.stop();
+          });
+        }
+    });
   }
 }

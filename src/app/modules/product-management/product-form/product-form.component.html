@@ -14,8 +14,7 @@
 
 <hr />
 
-<form *ngIf="product && productForm" [formGroup]="productForm">
-  <div class="row">
+<div class="row" *ngIf="product && productForm" [formGroup]="productForm">
     <div class="col-md-4">
       <h4>Información del producto</h4>
 
@@ -113,11 +112,10 @@
                   <span class="required">*</span>
                   <input class="form-control form-control-sm"
                     formControlName="amount"
-                    type="text"
+                    type="number"
                     placeholder="Unidades" />
                 </div>
-                <div *ngIf="control.value.id"
-                  class="display-flex presentation-actions">
+                <div class="display-flex presentation-actions">
                   <div class="form-check form-check-inline">
                     <input class="form-check-input"
                       type="checkbox"
@@ -127,10 +125,11 @@
                   </div>
 
                   <div class="push-right">
-                    <span class="price">Precio: $ {{control.value.price}}</span>
+                    <span class="price">Precio: {{ control.value.price?.price || 0 | amount }}</span>
                     <button class="btn btn-primary btn-sm"
-                      (click)="openPriceFormModal(control.value.id)">
-                      Editar Precio
+                      (click)="openPriceFormModal(control)">
+                      <span *ngIf="control.value.id">Editar Precio</span>
+                      <span *ngIf="!control.value.id">Poner Precio</span>
                     </button>
                   </div>
                 </div>
@@ -139,12 +138,11 @@
 
             <i title="Quitar presentación"
               class="bi bi-trash-fill del-button"
-              (click)="delPresentation(i)">
+              (click)="delPresentation(i, control.value.id)">
             </i>
           </div>
         </div>
       </div>
     </div>
   </div>
-</form>
 

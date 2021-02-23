@@ -43,7 +43,7 @@ export class Presentation {
   }
 
   getPrice(): number {
-    return this.price.price;
+    return this.price?.price || 0;
   }
 }
 

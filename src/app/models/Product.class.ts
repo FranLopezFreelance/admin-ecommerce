@@ -44,14 +44,15 @@ export class Product {
 
   toForm(): FormGroup {
     const presentations = new FormArray([]);
-    this.presentations.forEach(p => {
+    this.presentations.forEach(pres => {
       presentations.push(new FormGroup({
-        id: new FormControl(p.id),
-        name: new FormControl(p.name, [Validators.required]),
-        amount: new FormControl(p.amount, [Validators.required]),
-        description: new FormControl(p.description),
-        price: new FormControl(p.price.price),
-        active: new FormControl(p.active),
+        id: new FormControl(pres.id),
+        product_id: new FormControl(pres.product_id),
+        name: new FormControl(pres.name, [Validators.required]),
+        amount: new FormControl(pres.amount, [Validators.required]),
+        description: new FormControl(pres.description),
+        price: new FormControl(pres.price),
+        active: new FormControl(pres.active),
       }));
     });
     return new FormGroup({

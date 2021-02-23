@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { EventsService } from 'src/app/core/services/events.service';
+import { ProductsService } from 'src/app/core/services/products.service';
 import { Product } from 'src/app/models/Product.class';
 
 @Component({
@@ -13,7 +15,8 @@ export class ProductsTableComponent implements OnInit, OnChanges {
   allOpen = true;
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private eventsService: EventsService
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +37,10 @@ export class ProductsTableComponent implements OnInit, OnChanges {
   changeNodeStates(): void {
     this.allOpen = !this.allOpen;
     this.tableNodes.forEach(tn => tn.open = this.allOpen);
+  }
+
+  deleteProduct(id: number): void {
+    this.eventsService.deleteProduct.emit(id);
   }
 
   private setTableNodes(q: number | any, allOpen: boolean): void {
