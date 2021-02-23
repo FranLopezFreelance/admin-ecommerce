@@ -12,7 +12,7 @@ export class ProductsTableComponent implements OnInit, OnChanges {
 
   @Input() products: Product[] = [];
   tableNodes: any[] = [];
-  allOpen = true;
+  allOpen = false;
 
   constructor(
     public dialog: MatDialog,

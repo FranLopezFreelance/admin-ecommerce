@@ -6,7 +6,7 @@
     <th class="td-35">Presentaciones</th>
     <th></th>
     <th></th>
-    <th [ngSwitch]="allOpen" class="text-right-header"
+    <td [ngSwitch]="allOpen" class="text-right-header"
       (click)="changeNodeStates()">
       <i *ngSwitchCase="true"
         class="bi bi-chevron-up"
@@ -16,7 +16,7 @@
         class="bi bi-chevron-down"
         title="Expandir todo">
       </i>
-    </th>
+    </td>
   </tr>
   <!-- PRODUCTOS -->
   <tbody *ngFor="let product of products; let i = index">
@@ -61,15 +61,9 @@
       </td>
     </tr>
     <tr *ngIf="tableNodes[i].open">
-      <td class="inner-table-container" colspan="6">
+      <td class="inner-table-container" colspan="7">
         <!-- TABLA AÑIDADA -->
         <table class="table inner-table">
-          <!-- <tr class="presentations-header">
-            <td>Presentación</td>
-            <td>Unidad</td>
-            <td>Precio</td>
-          </tr> -->
-          <!-- PRESENTACIONES -->
           <tr *ngFor="let presentation of product?.presentations"
             class="presentation-row">
             <td class="text-right td-50">
@@ -84,6 +78,7 @@
             <td class="text-right td-10">
               {{presentation?.getPrice()  | amount}}
             </td>
+            <td class="td-10"></td>
           </tr>
         </table>
       </td>
