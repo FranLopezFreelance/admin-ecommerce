@@ -6,6 +6,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from 'src/app/core/services/products.service';
 import { SwalService } from 'src/app/core/services/swal.service';
+import { Presentation } from 'src/app/models/Presentation.class';
 import { Product } from 'src/app/models/Product.class';
 import { PriceFormModalComponent } from '../price-form-modal/price-form-modal.component';
 
@@ -17,6 +18,7 @@ export class ProductFormComponent implements OnInit {
 
   id?: string;
   product: Product = new Product();
+  presentation: Presentation = new Presentation();
   productForm?: FormGroup;
   action?: string;
 
@@ -49,14 +51,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   addPresentation(): void {
-    this.presentations.push(new FormGroup({
-      id: new FormControl(null),
-      name: new FormControl('', [Validators.required]),
-      amount: new FormControl(null, [Validators.required]),
-      description: new FormControl(''),
-      price: new FormControl({price: 0}),
-      active: new FormControl(1),
-    }));
+    this.presentations.push(this.presentation.toForm());
   }
 
   delPresentation(i: number, id: number): void {
@@ -130,7 +125,7 @@ export class ProductFormComponent implements OnInit {
 
   private updateProduct(): void {
     this.blockUI?.start();
-    this.productService.updateProduct(this.id, this.productForm?.value).subscribe(() => {
+    this.productService.updateProduct(this.id, this.buildRequestData()).subscribe(() => {
       this.blockUI?.stop();
       this.toastr.success('Los datos se editaron correctamente');
       this.router.navigate(['/productos']);
@@ -142,7 +137,7 @@ export class ProductFormComponent implements OnInit {
 
   private createProduct(): void {
     this.blockUI?.start();
-    this.productService.createProduct(this.productForm?.value).subscribe(() => {
+    this.productService.createProduct(this.buildRequestData()).subscribe(() => {
       this.blockUI?.stop();
       this.toastr.success('Los datos se guardaron correctamente');
       this.router.navigate(['/productos']);
@@ -150,6 +145,13 @@ export class ProductFormComponent implements OnInit {
       this.blockUI?.stop();
       this.toastr.error('Ha ocurrido un error');
     });
+  }
+
+  private buildRequestData(): Product {
+    const data: Product = this.productForm?.value;
+    data.active = Number(data.active);
+    data.presentations.map(pres => pres.active = Number(pres.active));
+    return data;
   }
 
 }

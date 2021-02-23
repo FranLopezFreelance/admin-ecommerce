@@ -39,7 +39,7 @@ export class ProductsTableComponent implements OnInit, OnChanges {
     this.tableNodes.forEach(tn => tn.open = this.allOpen);
   }
 
-  deleteProduct(id: number): void {
+  deleteProduct(id: number | null): void {
     this.eventsService.deleteProduct.emit(id);
   }
 

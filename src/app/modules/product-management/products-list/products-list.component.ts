@@ -61,21 +61,25 @@ export class ProductsListComponent implements OnInit {
     this.router.navigate(['/productos/nuevo']);
   }
 
-  deleteProduct(id: number): void {
+  deleteProduct(id: number | null): void {
     this.swalService.confirm(
       '¿Seguro que quiere eliminar el producto?',
       'Una vez que confirme la acción, el producto se eliminará definitivamente.',
       'Si', 'No').then((result: any) => {
         if (result.isConfirmed) {
-          this.blockUI?.start();
-          this.productsService.deleteProduct(id).subscribe(() => {
-            this.toastr.success('El producto se eliminó correctamente.');
-            this.blockUI?.stop();
-            this.getProducts();
-          }, () => {
+          if (id) {
+            this.blockUI?.start();
+            this.productsService.deleteProduct(id).subscribe(() => {
+              this.toastr.success('El producto se eliminó correctamente.');
+              this.blockUI?.stop();
+              this.getProducts();
+            }, () => {
+              this.toastr.success('Ha ocurrido un error al intentar eliminar el producto.');
+              this.blockUI?.stop();
+            });
+          } else {
             this.toastr.success('Ha ocurrido un error al intentar eliminar el producto.');
-            this.blockUI?.stop();
-          });
+          }
         }
     });
   }

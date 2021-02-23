@@ -19,7 +19,7 @@ export class Presentation {
     this.name = (presentation) ? presentation.name : '';
     this.amount = (presentation) ? presentation.amount : 0;
     this.description = (presentation) ? presentation.description : '';
-    this.active = (presentation) ? presentation.active : 0;
+    this.active = (presentation) ? presentation.active : 1;
     this.price = (presentation) ? presentation.price : defaultPrice;
     this.user_id = (presentation) ? presentation.user_id : 0;
   }
@@ -27,10 +27,12 @@ export class Presentation {
   toForm(): FormGroup {
     return new FormGroup({
       id: new FormControl(this.id),
-      product_id: new FormControl(this.product_id, [Validators.required]),
+      product_id: new FormControl(this.product_id),
       name: new FormControl(this.name, [Validators.required]),
       amount: new FormControl(this.amount, [Validators.required]),
-      description: new FormControl(this.amount)
+      description: new FormControl(this.description),
+      price: new FormControl(this.price),
+      active: new FormControl(this.active),
     });
   }
 
@@ -48,11 +50,11 @@ export class Presentation {
 }
 
 export interface Price {
-  presentation_id: number;
+  presentation_id: number | null;
   price: number;
 }
 
 export const defaultPrice = {
-  presentation_id: 0,
+  presentation_id: null,
   price: 0
 };

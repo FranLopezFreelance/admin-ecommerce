@@ -20,11 +20,14 @@
   </tr>
   <!-- PRODUCTOS -->
   <tbody *ngFor="let product of products; let i = index">
-    <tr class="table-node">
+    <tr class="table-node"
+      [class.inactive-row]="!product?.active">
       <td>
         {{ product?.name | titlecase }}
-        <span class="state" [ngClass]="product?.stateCss() || ''">
-          {{ product?.getState() }}
+        <span class="state"
+          [ngClass]="product?.stateCss() || ''"
+          [title]="product?.getState()">
+            {{ product?.getState() }}
         </span>
       </td>
       <td>{{ product?.getSellType() }}</td>

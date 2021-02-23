@@ -2,7 +2,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Presentation } from './Presentation.class';
 
 export class Product {
-  id: number;
+  id: number | null;
   name: string;
   description: string;
   // tslint:disable-next-line: variable-name
@@ -15,13 +15,13 @@ export class Product {
   photos: string[];
 
   constructor(product?: Product) {
-    this.id = (product) ? product.id : 0;
+    this.id = (product) ? product.id : null;
     this.name = (product) ? product.name : '';
     this.description = (product) ? product.description : '';
     this.sell_type = (product) ? product.sell_type : 0;
     this.origin = (product) ? product.origin : '';
     this.user_id = (product) ? product.user_id : 0;
-    this.active = 1;
+    this.active = (product) ? product.active : 1;
     if (product && product.presentations) {
       this.presentations = product.presentations.map(p => new Presentation(p));
     } else {
@@ -45,15 +45,7 @@ export class Product {
   toForm(): FormGroup {
     const presentations = new FormArray([]);
     this.presentations.forEach(pres => {
-      presentations.push(new FormGroup({
-        id: new FormControl(pres.id),
-        product_id: new FormControl(pres.product_id),
-        name: new FormControl(pres.name, [Validators.required]),
-        amount: new FormControl(pres.amount, [Validators.required]),
-        description: new FormControl(pres.description),
-        price: new FormControl(pres.price),
-        active: new FormControl(pres.active),
-      }));
+      presentations.push(pres.toForm());
     });
     return new FormGroup({
       id: new FormControl(this.id),

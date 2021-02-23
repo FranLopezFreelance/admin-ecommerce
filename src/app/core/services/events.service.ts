@@ -5,6 +5,6 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class EventsService {
 
-  deleteProduct: EventEmitter<number> = new EventEmitter();
+  deleteProduct: EventEmitter<number | null> = new EventEmitter();
 
 }
