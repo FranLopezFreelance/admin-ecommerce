@@ -24,7 +24,7 @@
       [class.inactive-row]="!product?.active">
       <td>
         {{ product?.name | titlecase }}
-        <span class="state"
+        <span class="state" *ngIf="!product?.active"
           [ngClass]="product?.stateCss() || ''"
           [title]="product?.getState()">
             {{ product?.getState() }}
@@ -71,7 +71,8 @@
             class="presentation-row">
             <td class="text-right td-50">
               {{presentation.name}}
-              <span class="state" [ngClass]="presentation?.stateCss() || ''">
+              <span class="state" *ngIf="!presentation?.active"
+                [ngClass]="presentation?.stateCss() || ''">
                 {{ presentation?.getState() }}
               </span>
             </td>
