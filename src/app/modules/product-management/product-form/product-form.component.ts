@@ -113,7 +113,6 @@ export class ProductFormComponent implements OnInit {
   private getSections(): void {
     this.sectionsService.getSections().subscribe(sections => {
       this.sections = sections;
-      console.log(this.sections);
     });
   }
 
@@ -121,9 +120,7 @@ export class ProductFormComponent implements OnInit {
     this.blockUI?.start();
     this.productService.getProduct(Number(this.id)).subscribe(product => {
       this.product = product;
-      console.log(this.product);
       this.productForm = this.product.toForm();
-      console.log(this.productForm.value);
       this.blockUI?.stop();
     });
   }

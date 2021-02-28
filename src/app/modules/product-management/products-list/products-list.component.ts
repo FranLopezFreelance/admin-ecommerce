@@ -74,7 +74,6 @@ export class ProductsListComponent implements OnInit {
   }
 
   sectionChange(): void {
-    console.log(this.products);
     this.filterValue = '';
     if (this.sectionId !== '0') {
       this.filteredProducts = this.products
