@@ -27,6 +27,7 @@
     "ng-bootstrap-form-validation": "^9.0.1",
     "ng2-currency-mask": "^9.0.2",
     "ngx-mask": "^11.1.4",
+    "ngx-select-ex": "^6.0.2",
     "ngx-toastr": "^13.2.0",
     "rxjs": "~6.6.0",
     "sweetalert2": "^10.15.5",

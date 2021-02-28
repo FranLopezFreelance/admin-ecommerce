@@ -1,5 +1,7 @@
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Presentation } from './Presentation.class';
+import { ProductSection } from './ProductSection.class';
+import { Section } from './Section';
 
 export class Product {
   id: number | null;
@@ -12,6 +14,7 @@ export class Product {
   user_id: number;
   active: number;
   presentations: Presentation[];
+  sections: ProductSection[];
   photos: string[];
 
   constructor(product?: Product) {
@@ -22,12 +25,23 @@ export class Product {
     this.origin = (product) ? product.origin : '';
     this.user_id = (product) ? product.user_id : 0;
     this.active = (product) ? product.active : 1;
+    this.photos = (product) ? product.photos : [];
+
     if (product && product.presentations) {
       this.presentations = product.presentations.map(p => new Presentation(p));
     } else {
       this.presentations = [];
     }
-    this.photos = (product) ? product.photos : [];
+
+    if (product && product.sections) {
+      const sections: ProductSection[] = [];
+      product.sections.forEach((s: any) => {
+        sections.push(new ProductSection(s));
+      });
+      this.sections = sections;
+    } else {
+      this.sections = [];
+    }
   }
 
   getState(): string {
@@ -36,6 +50,12 @@ export class Product {
 
   stateCss(): string {
     return (this.active) ? 'p-active' : 'p-inactive';
+  }
+
+  getSection(): string {
+    let sections = '';
+    this.sections.forEach(s => sections += `${s.name}, `);
+    return sections.slice(0, -2);
   }
 
   getSellType(): string {
@@ -47,6 +67,7 @@ export class Product {
     this.presentations.forEach(pres => {
       presentations.push(pres.toForm());
     });
+
     return new FormGroup({
       id: new FormControl(this.id),
       name: new FormControl(this.name, [Validators.required]),
@@ -54,6 +75,7 @@ export class Product {
       sell_type: new FormControl(this.sell_type, [Validators.required]),
       origin: new FormControl(this.origin),
       active: new FormControl(this.active),
+      sections: new FormControl(this.sections.map(s => Number(s.id))),
       presentations
     });
   }

@@ -8,7 +8,13 @@ const routes: Routes = [
   },
   {
     path: 'productos',
-    loadChildren: () => import('./modules/product-management/product-management.module').then((m) => m.ProductManagementModule),
+    loadChildren: () => import('./modules/product-management/product-management.module')
+      .then((m) => m.ProductManagementModule),
+  },
+  {
+    path: 'secciones',
+    loadChildren: () => import('./modules/section-management/section-management.module')
+      .then((m) => m.SectionManagementModule),
   },
   {
     path: 'inventario',

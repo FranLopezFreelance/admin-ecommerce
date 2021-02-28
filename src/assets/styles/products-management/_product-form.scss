@@ -46,3 +46,17 @@
   font-size: 0.7!important;
   margin-left: 10px;
 }
+
+.ngx-select__search {
+  font-size: 0.9em!important;
+  padding: 2px 4px!important;
+}
+
+.ngx-select__selected-plural {
+  background-color: cadetblue!important;
+  font-size: 0.9em!important;
+  padding: 4px 4px 3px!important;
+  .ngx-select__clear-icon {
+    font-size: 0.8em!important;
+  }
+}

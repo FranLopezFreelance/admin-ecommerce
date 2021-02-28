@@ -31,11 +31,23 @@
       </div>
 
       <div class="form-group">
+        <label for="name">Secciones</label>
+        <ngx-select
+          [multiple]="true"
+          [items]="sections"
+          placeholder="Secciones"
+          optionValueField="id"
+          optionTextField="name"
+          formControlName="sections">
+        </ngx-select>
+      </div>
+
+      <div class="form-group">
         <label for="description">Descripción</label>
         <textarea class="form-control"
           id="description"
           formControlName="description"
-          rows="4"
+          rows="3"
           placeholder="Descripción">
         </textarea>
       </div>

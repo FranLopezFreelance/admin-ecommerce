@@ -1,9 +1,10 @@
 <table class="table products-table">
   <tr class="table-header">
-    <th class="td-35">Nombre</th>
+    <th class="td-30">Nombre</th>
+    <th class="td-30">Sección</th>
     <th class="td-10">Tipo venta</th>
     <th class="td-10">Orígen</th>
-    <th class="td-35">Presentaciones</th>
+    <th class="td-30">Presentaciones</th>
     <th></th>
     <th></th>
     <td [ngSwitch]="allOpen" class="text-right-header"
@@ -30,6 +31,7 @@
             {{ product?.getState() }}
         </span>
       </td>
+      <td>{{ product.getSection() }}</td>
       <td>{{ product?.getSellType() }}</td>
       <td>{{ product?.origin || 'No informado' }}</td>
       <td [ngSwitch]="product?.presentations?.length">
@@ -64,7 +66,7 @@
       </td>
     </tr>
     <tr *ngIf="tableNodes[i].open">
-      <td class="inner-table-container" colspan="7">
+      <td class="inner-table-container" colspan="8">
         <!-- TABLA AÑIDADA -->
         <table class="table inner-table">
           <tr *ngFor="let presentation of product?.presentations"

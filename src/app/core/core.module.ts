@@ -9,9 +9,10 @@ import { CUSTOM_ERRORS } from '../shared/helpers/custom-errors';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { CustomCurrencyMaskConfig } from '../shared/helpers/currency-options';
+import { SectionHeaderComponent } from './components/section-header/section-header.component';
 
 @NgModule({
-  declarations: [NavbarComponent],
+  declarations: [NavbarComponent, SectionHeaderComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -23,6 +24,7 @@ import { CustomCurrencyMaskConfig } from '../shared/helpers/currency-options';
   ],
   exports: [
     NavbarComponent,
+    SectionHeaderComponent,
     BlockUIModule,
     ToastrModule,
     CurrencyMaskModule

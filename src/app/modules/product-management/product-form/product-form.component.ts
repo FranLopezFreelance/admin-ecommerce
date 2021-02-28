@@ -5,9 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from 'src/app/core/services/products.service';
+import { SectionsService } from 'src/app/core/services/sections.service';
 import { SwalService } from 'src/app/core/services/swal.service';
 import { Presentation } from 'src/app/models/Presentation.class';
 import { Product } from 'src/app/models/Product.class';
+import { Section } from 'src/app/models/Section';
 import { PriceFormModalComponent } from '../price-form-modal/price-form-modal.component';
 
 @Component({
@@ -21,11 +23,13 @@ export class ProductFormComponent implements OnInit {
   presentation: Presentation = new Presentation();
   productForm?: FormGroup;
   action?: string;
+  sections: Section[] = [];
 
   @BlockUI() blockUI?: NgBlockUI;
 
   constructor(
     private productService: ProductsService,
+    private sectionsService: SectionsService,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
@@ -34,6 +38,7 @@ export class ProductFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getSections();
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id') || '';
       if (this.id !== 'nuevo') {
@@ -52,6 +57,7 @@ export class ProductFormComponent implements OnInit {
 
   addPresentation(): void {
     this.presentations.push(this.presentation.toForm());
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
   delPresentation(i: number, id: number): void {
@@ -104,11 +110,20 @@ export class ProductFormComponent implements OnInit {
     }
   }
 
+  private getSections(): void {
+    this.sectionsService.getSections().subscribe(sections => {
+      this.sections = sections;
+      console.log(this.sections);
+    });
+  }
+
   private getProduct(): void {
     this.blockUI?.start();
     this.productService.getProduct(Number(this.id)).subscribe(product => {
       this.product = product;
+      console.log(this.product);
       this.productForm = this.product.toForm();
+      console.log(this.productForm.value);
       this.blockUI?.stop();
     });
   }
@@ -149,8 +164,13 @@ export class ProductFormComponent implements OnInit {
 
   private buildRequestData(): Product {
     const data: Product = this.productForm?.value;
+    const sections: any[] = [];
     data.active = Number(data.active);
     data.presentations.map(pres => pres.active = Number(pres.active));
+    this.productForm?.value.sections.forEach((s: any) => {
+      sections.push({ id: Number(s) });
+    });
+    data.sections = sections;
     return data;
   }
 
