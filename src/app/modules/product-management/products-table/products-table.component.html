@@ -1,13 +1,12 @@
 <table class="table products-table">
   <tr class="table-header">
-    <th class="td-30">Nombre</th>
-    <th class="td-30">Sección</th>
+    <th class="td-35">Nombre</th>
     <th class="td-10">Tipo venta</th>
     <th class="td-10">Orígen</th>
-    <th class="td-30">Presentaciones</th>
+    <th class="td-35">Presentaciones</th>
     <th></th>
     <th></th>
-    <td [ngSwitch]="allOpen" class="text-right-header"
+    <th [ngSwitch]="allOpen" class="text-right-header td-5"
       (click)="changeNodeStates()">
       <i *ngSwitchCase="true"
         class="bi bi-chevron-up"
@@ -17,7 +16,7 @@
         class="bi bi-chevron-down"
         title="Expandir todo">
       </i>
-    </td>
+    </th>
   </tr>
   <!-- PRODUCTOS -->
   <tbody *ngFor="let product of products; let i = index">
@@ -31,7 +30,6 @@
             {{ product?.getState() }}
         </span>
       </td>
-      <td>{{ product.getSection() }}</td>
       <td>{{ product?.getSellType() }}</td>
       <td>{{ product?.origin || 'No informado' }}</td>
       <td [ngSwitch]="product?.presentations?.length">
@@ -58,7 +56,7 @@
         </i>
       </td>
       <td [ngSwitch]="tableNodes[i].open"
-        class="text-right"
+        class="text-right td-5"
         (click)="changeNodeState(i)"
         [title]="(tableNodes[i].open) ? 'Contraer' : 'Expandir'">
         <i *ngSwitchCase="true" class="bi bi-chevron-up"></i>
@@ -66,23 +64,27 @@
       </td>
     </tr>
     <tr *ngIf="tableNodes[i].open">
-      <td class="inner-table-container" colspan="8">
+      <td class="inner-table-container" colspan="7">
         <!-- TABLA AÑIDADA -->
         <table class="table inner-table">
-          <tr *ngFor="let presentation of product?.presentations"
-            class="presentation-row">
-            <td class="text-right td-50">
+          <tr *ngFor="let presentation of product?.presentations; index as is">
+            <td *ngIf="is === 0"
+              class="td-40 td-sections"
+              [attr.rowspan]="product.presentations.length">
+                <span class="sections">Secciones: {{ product.getSection() }}</span>
+            </td>
+            <td class="text-right td-10 presentation-row">
               {{presentation.name}}
               <span class="state" *ngIf="!presentation?.active"
                 [ngClass]="presentation?.stateCss() || ''">
                 {{ presentation?.getState() }}
               </span>
             </td>
-            <td class="text-right td-10">
+            <td class="text-right td-10 presentation-row">
               ({{presentation?.amount}} unid.)
             </td>
-            <td class="text-right td-10">
-              {{presentation?.getPrice()  | amount}}
+            <td class="text-right td-10 presentation-row">
+              <b>{{presentation?.getPrice()  | amount}}</b>
             </td>
             <td class="td-10"></td>
           </tr>

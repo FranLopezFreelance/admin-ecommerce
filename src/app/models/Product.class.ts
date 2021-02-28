@@ -53,9 +53,13 @@ export class Product {
   }
 
   getSection(): string {
-    let sections = '';
-    this.sections.forEach(s => sections += `${s.name}, `);
-    return sections.slice(0, -2);
+    if (this.sections.length) {
+      let sections = '';
+      this.sections.forEach(s => sections += `${s.name}, `);
+      return sections.slice(0, -2);
+    } else {
+      return 'Sin sección';
+    }
   }
 
   getSellType(): string {
