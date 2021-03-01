@@ -1,11 +1,83 @@
 <div class="display-flex page-title">
   <h3>Administración de Secciones</h3>
+  <div class="push-right">
+    <button class="btn btn-primary btn-sm"
+      (click)="createSection()">
+      Nueva sección
+    </button>
+  </div>
 </div>
 
 <hr />
 
 <div class="row mt-2">
-  <div class="col-12">
+  <div class="col-6">
+    <ul class="sections-list">
+      <li *ngFor="let section of sections; index as i"
+        [class.selected]="items[i].selected">
+        <div class="clickeable-section"
+          (click)="seclectSection(section, i)"
+          title="Click para editar">
+          {{ section.name }}
+          <span class="state" *ngIf="!section?.active"
+            [ngClass]="section?.stateCss() || ''"
+            [title]="section?.getState()">
+              {{ section?.getState() }}
+          </span>
+        </div>
+        <i title="Eliminar sección"
+          class="bi bi-trash-fill edit-button"
+          (click)="deleteSection(section.id)">
+        </i>
+      </li>
+    </ul>
+  </div>
+  <div class="col-6">
+    <div *ngIf="sectionForm"
+      [formGroup]="sectionForm"
+      class="section-form">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <span class="required">*</span>
+        <input class="form-control form-control-sm"
+          id="name"
+          formControlName="name"
+          type="text"
+          placeholder="Nombre" />
+      </div>
+      <div class="form-group">
+        <label for="url">URL</label>
+        <span class="required">*</span>
+        <input class="form-control form-control-sm"
+          id="url"
+          formControlName="url"
+          type="text"
+          placeholder="URL" />
+          <small class="text-muted">Se genera automáticamente.</small>
+      </div>
+      <div class="form-check form-check-inline check-row">
+        <input class="form-check-input"
+          type="checkbox"
+          id="active"
+          value="1"
+          formControlName="active">
+        <label class="form-check-label"
+          for="active">Activo</label>
+      </div>
 
+      <hr />
+
+      <button class="btn btn-success btn-sm"
+        (click)="save()">
+        Guardar
+      </button>
+      <button class="btn btn-danger btn-sm btn-cancel"
+        (click)="cancel()">
+        Cancelar
+      </button>
+    </div>
+    <div *ngIf="!sectionForm" class="no-section">
+      <h3 class="select-section-title">Seleccione una sección para editar</h3>
+    </div>
   </div>
 </div>

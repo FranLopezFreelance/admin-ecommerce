@@ -6,7 +6,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductsTableComponent } from './products-table/products-table.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { PriceFormModalComponent } from './price-form-modal/price-form-modal.component';
-import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { NgxSelectModule } from 'ngx-select-ex';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { NgxSelectModule } from 'ngx-select-ex';
   ],
   imports: [
     CommonModule,
-    NgBootstrapFormValidationModule,
     ProductManagementRoutingModule,
     SharedModule,
     NgxSelectModule,

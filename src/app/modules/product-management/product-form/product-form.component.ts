@@ -89,9 +89,9 @@ export class ProductFormComponent implements OnInit {
       return;
     }
     if (this.id !== 'nuevo') {
-      this.updateProduct();
+      this.update();
     } else {
-      this.createProduct();
+      this.create();
     }
   }
 
@@ -135,7 +135,7 @@ export class ProductFormComponent implements OnInit {
     this.presentations.markAllAsTouched();
   }
 
-  private updateProduct(): void {
+  private update(): void {
     this.blockUI?.start();
     this.productService.updateProduct(this.id, this.buildRequestData()).subscribe(() => {
       this.blockUI?.stop();
@@ -147,7 +147,7 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  private createProduct(): void {
+  private create(): void {
     this.blockUI?.start();
     this.productService.createProduct(this.buildRequestData()).subscribe(() => {
       this.blockUI?.stop();

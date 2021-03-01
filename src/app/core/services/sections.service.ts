@@ -21,4 +21,16 @@ export class SectionsService {
       })
     );
   }
+
+  updateSection(id: string | undefined, data: any): Observable<Section> {
+    return this.http.put<Section>(`${environment.baseUrl}/sections/${id}`, data);
+  }
+
+  createSection(data: any): Observable<Section> {
+    return this.http.post<Section>(`${environment.baseUrl}/sections`, data);
+  }
+
+  deleteSection(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.baseUrl}/sections/${id}`);
+  }
 }

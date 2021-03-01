@@ -6,9 +6,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SectionHeaderComponent implements OnInit {
 
+  name = '';
+
+  buttons = [
+    {
+      label: 'Crear Producto'
+    }
+  ];
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  action(): void {
+    //
   }
 
 }

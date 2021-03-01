@@ -1,7 +1,6 @@
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Presentation } from './Presentation.class';
 import { ProductSection } from './ProductSection.class';
-import { Section } from './Section';
 
 export class Product {
   id: number | null;
@@ -28,7 +27,8 @@ export class Product {
     this.photos = (product) ? product.photos : [];
 
     if (product && product.presentations) {
-      this.presentations = product.presentations.map(p => new Presentation(p));
+      this.presentations = product.presentations
+        .map(p => new Presentation(p));
     } else {
       this.presentations = [];
     }
