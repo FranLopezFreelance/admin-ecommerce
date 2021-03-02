@@ -11,10 +11,18 @@
 <hr />
 
 <div class="row mt-2">
-  <div class="col-6">
-    <ul class="sections-list">
+  <div class="col-6" cdkDropListGroup>
+    <p class="text-muted">Se puede cambiar el orden de las secciones arrastrándolas.</p>
+    <ul cdkDropList
+      class="sections-list"
+      [cdkDropListData]="sections"
+      (cdkDropListDropped)="orderChange($event)">
       <li *ngFor="let section of sections; index as i"
-        [class.selected]="items[i].selected">
+        [cdkDragData]="section"
+        [class.selected]="items[i].selected"
+        [class.inactive]="!section.active"
+        cdkDragBoundary=".sections-list"
+        cdkDrag>
         <div class="clickeable-section"
           (click)="seclectSection(section, i)"
           title="Click para editar">
@@ -77,7 +85,9 @@
       </button>
     </div>
     <div *ngIf="!sectionForm" class="no-section">
-      <h3 class="select-section-title">Seleccione una sección para editar</h3>
+      <h3 class="select-section-title">
+        Seleccione una sección haciendo click<br /> en el nombre para editarla
+      </h3>
     </div>
   </div>
 </div>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Section } from 'src/app/models/Section';
+import { OrderData } from 'src/app/modules/section-management/sections-list/sections-list.component';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -32,5 +33,9 @@ export class SectionsService {
 
   deleteSection(id: number): Observable<any> {
     return this.http.delete<any>(`${environment.baseUrl}/sections/${id}`);
+  }
+
+  updateOrder(data: OrderData[]): Observable<any> {
+    return this.http.post<any>(`${environment.baseUrl}/order/sections`, data);
   }
 }

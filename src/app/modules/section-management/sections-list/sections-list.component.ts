@@ -1,3 +1,4 @@
+import { CdkDrag, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -109,14 +110,33 @@ export class SectionsListComponent implements OnInit {
               this.blockUI?.stop();
               this.getSections();
             }, () => {
-              this.toastr.success('Ha ocurrido un error al intentar eliminar la sección.');
+              this.toastr.error('Ha ocurrido un error al intentar eliminar la sección.');
               this.blockUI?.stop();
             });
           } else {
-            this.toastr.success('Ha ocurrido un error al intentar eliminar la sección.');
+            this.toastr.error('Ha ocurrido un error al intentar eliminar la sección.');
           }
         }
     });
+  }
+
+  orderChange(event: CdkDragDrop<Section[]>): void {
+    if (event.previousIndex !== event.currentIndex) {
+      this.blockUI?.start();
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.sectionsService.updateOrder(this.buildRequestNewOrder()).subscribe(() => {
+        this.blockUI?.stop();
+        this.toastr.success('El orden se actualizó correctamente.');
+        this.cancel();
+        this.getSections();
+      }, () => {
+        //
+      });
+    }
+  }
+
+  sortPredicate(index: number, item: CdkDrag<number>): boolean {
+    return (index + 1) % 2 === item.data % 2;
   }
 
   private setItems(): void {
@@ -191,8 +211,23 @@ export class SectionsListComponent implements OnInit {
     return data;
   }
 
+  private buildRequestNewOrder(): OrderData[] {
+    const data: OrderData[] = [];
+    this.sections.forEach((s, i) => {
+      if (s.order !== i + 1) {
+        data.push({id: Number(s.id), order: i + 1});
+      }
+    });
+    return data;
+  }
+
 }
 
 export interface Item {
   selected: boolean;
+}
+
+export interface OrderData {
+  id: number;
+  order: number;
 }
