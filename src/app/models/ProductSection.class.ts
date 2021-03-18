@@ -1,10 +1,8 @@
-import { Section } from './Section';
-
 export class ProductSection {
   id: string;
   name?: string;
 
-  constructor(section: ProductSection){
+  constructor(section: ProductSection) {
     this.id = String(section.id);
     this.name = section.name || '';
   }

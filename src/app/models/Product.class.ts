@@ -6,10 +6,8 @@ export class Product {
   id: number | null;
   name: string;
   description: string;
-  // tslint:disable-next-line: variable-name
   sell_type: number;
   origin: string;
-  // tslint:disable-next-line: variable-name
   user_id: number;
   active: number;
   presentations: Presentation[];
